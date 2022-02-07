@@ -102,3 +102,7 @@
 #lecture-list ul li button {
     color: #FFF;
 }
+
+.strike {
+    text-decoration: line-through;
+}

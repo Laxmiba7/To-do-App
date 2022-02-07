@@ -31,12 +31,12 @@
                 <div class="row mb-2">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <input class="form-control" type="text" name="name" placeholder="Enter your task " />
+                            <input class="form-control" id= "task" type="text" name="name" placeholder="Enter your task " />
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <select name="priority" class="form-control" placeholder="Select your priority ">
+                            <select name="priority" class="form-control" id="select-priority" placeholder="Select your priority " >
                                 <option value="0">Low</option>
                                 <option value="1">Medium</option>
                                 <option value="2">High</option>
@@ -44,15 +44,15 @@
                         </div>
                     </div>
                     <div class="col-md-12">
-                        <div class="forn-group">
-                            <textarea class="form-control" name="description" placeholder="Enter your description " rows="4"></textarea>
+                        <div class="form-group">
+                            <textarea class="form-control" name="description" placeholder="Enter your description " id="description" rows="4"></textarea>
                         </div>
                     </div>
                 </div>
-                <button class="success" type="submit">Add</button>
+                <button class="success" type="submit" id="success">Add</button>
             </form>
             <div id="lecture-list">
-                <ul>
+                <!-- <ul>
                     <li>
                         <div>
                             <h6 class="title completed ">Complete assignment 1 (HTML / CSS) <span class="ml-2 badge badge-danger">High</span> </h6>
@@ -104,12 +104,14 @@
                         </div>
                     </li>
 
-                </ul>
+                </ul> -->
             </div>
 
         </div>
 
     </section>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="./api.js"></script>
 </body>
 
 </html>
