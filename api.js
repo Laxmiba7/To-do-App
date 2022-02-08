@@ -1,5 +1,7 @@
 // const { default: axios } = require("axios");
 
+// const { default: axios } = require("axios");
+
 const addBtn = document.querySelector('#success');
 const listTask = document.getElementById('lecture-list');
 
@@ -37,21 +39,33 @@ const displayData = () => {
       }
       
       const deleteBtn = document.querySelectorAll('.btn-danger');
-      // const editBtn = document.querySelectorAll('.btn-warning');
+      const completeTasks = document.querySelectorAll('.btn-success');
 
+      
+     // const editBtns = document.querySelectorAll('.btn-warning');
 
+     completeTasks.forEach((btn, i) => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        console.log(btn);
+          const index = btn.getAttribute('data-index');
+          updateComplete(index);
+          
+      })
+    })
 
-      // editBtn.forEach((delBtn, i) => {
-      //   delBtn.addEventListener('click', () => {
-      //     console.log(delBtn);
-      //       const index = delBtn.getAttribute('data-index');
+      // editBtns.forEach((editBtn, i) => {
+      //   editBtn.addEventListener('click', () => {
+      //     console.log(editBtn);
+      //       const index = editBtn.getAttribute('data-index');
       //       console.log(index);
-      //       deleteTask(index);
+      //       // deleteTask(index);
       //   })
       // })
       
          deleteBtn.forEach((delBtn, i) => {
-           delBtn.addEventListener('click', () => {
+           delBtn.addEventListener('click', (e) => {
+             e.preventDefault();
              console.log(delBtn);
                const index = delBtn.getAttribute('data-index');
                console.log(index);
@@ -64,7 +78,26 @@ const displayData = () => {
 
 
     // handleDel();
-    
+    listTask.innerHTML = '';
+}
+
+const updateComplete = (id) => {
+  axios({
+    method: 'put',
+    url: `https://infodev-server.herokuapp.com/api/todos/${id}`,
+    data: {
+    completed: true,
+  
+    }
+}).then(function (response) {
+console.log(response);
+displayData();
+alert("Completed Successfully");
+})
+.catch(function (error) {
+console.log(error);
+});
+
 }
 
 
@@ -93,7 +126,9 @@ function postData(e) {
     console.log(error);
   });
   
-  // location.reload();
+  taskName ='';
+  priorityValue= '';
+  description = '';
 }
 
 addBtn.addEventListener('click', postData);
@@ -101,7 +136,7 @@ displayData();
 
 
 
-function deleteTask(id) {
+const  deleteTask = (id) => {
   axios ({
     method:"delete",
     url: `https://infodev-server.herokuapp.com/api/todos/${id}`,
@@ -115,23 +150,6 @@ function deleteTask(id) {
   displayData();
 
 }
-
-//   })  
-// }
-   
-  
-//     axios.get('https://infodev-server.herokuapp.com/api/todos').then(function(response){
-
-//         response.data.forEach(item => {
-         
-
-          
-//         })
-          
-        
-//     })
-    
-// }
 
 
   
