@@ -1,9 +1,8 @@
-// const { default: axios } = require("axios");
-
-// const { default: axios } = require("axios");
 
 const addBtn = document.querySelector('#success');
-const listTask = document.getElementById('lecture-list');
+const listTask = document.querySelector('#lecture-list ul');
+let array= [];
+
 
 const displayData = () => {
     
@@ -11,10 +10,11 @@ const displayData = () => {
     axios.get('https://infodev-server.herokuapp.com/api/todos').then(function(response){
 
     response.data.forEach(item => {
-      //console.log(item._id);
+      
+      
       if(item.completed === false) {
-        listTask.innerHTML +=  `<ul>
-        <li>
+        listTask.innerHTML +=  `
+        <li data-index = "${item._id}">
           <div>
               <h6 class="title"> ${item.name} <span class="ml-2 badge badge-info">${item.priority}</span></h6>
               <p class="description">${item.description}</p>
@@ -24,61 +24,68 @@ const displayData = () => {
               <button class="btn btn-warning" data-index= "${item._id}"><i class="fas fa-pencil"></i></i></button>
               <button class="btn btn-danger" data-index= "${item._id}" ><i class="far fa-trash-alt"></i></button>
           </div>
-        </li>
-        </ul>`
+        </li>`
       } else {
         const completeClass = 'strike';
-        listTask.innerHTML +=  `<ul>
+        listTask.innerHTML +=  `
         <li>
           <div>
               <h6 class="title ${completeClass}"> ${item.name} <span class="ml-2 badge badge-info">${item.priority}</span></h6>
               <p class="description">${item.description}</p>
           </div>
-        </li>
-        </ul>`
+        </li>`
       }
       
       const deleteBtn = document.querySelectorAll('.btn-danger');
       const completeTasks = document.querySelectorAll('.btn-success');
-
-      
-     // const editBtns = document.querySelectorAll('.btn-warning');
+      const editBtns = document.querySelectorAll('.btn-warning');
 
      completeTasks.forEach((btn, i) => {
       btn.addEventListener('click', (e) => {
         e.preventDefault();
-        console.log(btn);
-          const index = btn.getAttribute('data-index');
+         let index = btn.getAttribute('data-index');
           updateComplete(index);
           
       })
     })
 
-      // editBtns.forEach((editBtn, i) => {
-      //   editBtn.addEventListener('click', () => {
-      //     console.log(editBtn);
-      //       const index = editBtn.getAttribute('data-index');
-      //       console.log(index);
-      //       // deleteTask(index);
-      //   })
-      // })
+    // editBtns.forEach((editBtn,i) => {
+    //   // console.log(item);
+    //     editBtn.addEventListener('click', (e) => {
+    //         e.preventDefault();
+    //         const index = editBtn.getAttribute('data-index');
+    //         findId(index);
+            
+    //         // taskName.value = item.name;
+    //         // priorityValue.value = item.priority;
+    //         // description.value = item.description;
+            
+    //         // console.log(index);
+    //         // console.log(item.name);
+
+    //         // editTask(id);
+    //         // addBtn.addEventListener('click', editTask(index, item.name, item.priority, item.description));
+            
+    //     })
+        
+    // })
+
+    
+    
+    
       
          deleteBtn.forEach((delBtn, i) => {
            delBtn.addEventListener('click', (e) => {
              e.preventDefault();
              console.log(delBtn);
                const index = delBtn.getAttribute('data-index');
-               console.log(index);
                deleteTask(index);
            })
-         })
+         }) 
       
     });
     });
-
-
-    // handleDel();
-    listTask.innerHTML = '';
+  listTask.innerHTML = '';
 }
 
 const updateComplete = (id) => {
@@ -100,22 +107,23 @@ console.log(error);
 
 }
 
+  let taskName = document.getElementById('task');
+  let  select = document.getElementById('select-priority');
+  let priorityValue = select.options[select.selectedIndex];
+  let description = document.getElementById('description');
 
 function postData(e) {
   e.preventDefault();
-    const taskName = document.getElementById('task').value;
-    const select = document.getElementById('select-priority');
-    const priorityValue = select.options[select.selectedIndex].value;
-    const description = document.getElementById('description').value;
-   
-    axios({
+  
+  
+   axios({
         method: 'post',
         url: 'https://infodev-server.herokuapp.com/api/todos',
         data: {
         completed: false,
-        name: taskName,
-        priority: priorityValue,
-        description: description
+        name: taskName.value,
+        priority: priorityValue.value,
+        description: description.value
         }
 }).then(function (response) {
     console.log(response);
@@ -126,9 +134,9 @@ function postData(e) {
     console.log(error);
   });
   
-  taskName ='';
-  priorityValue= '';
-  description = '';
+  // taskName=' ';
+  // priorityValue= ' ';
+  // description = ' ';
 }
 
 addBtn.addEventListener('click', postData);
@@ -150,6 +158,58 @@ const  deleteTask = (id) => {
   displayData();
 
 }
+
+const editTask = () => {
+
+  console.log("success");
+
+  
+
+}
+
+listTask.addEventListener('click', (e) => {
+  
+  e.preventDefault();
+  if(e.target.className === "btn btn-warning") {
+  var targetLi = e.target.parentElement.parentElement;
+    
+  }
+  taskName.value =  targetLi.children[0].children[0].childNodes[0].data;
+  description.value = targetLi.children[0].children[1].innerText;
+  priorityValue.value = targetLi.children[0].children[0].children[0].innerText;
+
+  const id= targetLi.getAttribute("data-index");
+  updateData(id)
+
+  
+})
+
+function updateData(id) {
+ // e.preventDefault();
+  
+  
+   axios({
+        method: 'put',
+        url: `https://infodev-server.herokuapp.com/api/todos/${id}`,
+        data: {
+        completed: false,
+        name: taskName.value,
+        priority: priorityValue.value,
+        description: description.value
+        }
+}).then(function (response) {
+    console.log(response);
+    displayData();
+    
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+  
+ 
+}
+
+
 
 
   
