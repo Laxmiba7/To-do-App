@@ -1,7 +1,12 @@
 
 const addBtn = document.querySelector('#add');
 const listTask = document.querySelector('#lecture-list ul');
-let array= [];
+const update = document.getElementById('update');
+let taskName = document.getElementById('task');
+let  select = document.getElementById('select-priority');
+let priorityValue = select.options[select.selectedIndex];
+let description = document.getElementById('description');
+
 
 
 const displayData = () => {
@@ -82,10 +87,7 @@ console.log(error);
 
 }
 
-  let taskName = document.getElementById('task');
-  let  select = document.getElementById('select-priority');
-  let priorityValue = select.options[select.selectedIndex];
-  let description = document.getElementById('description');
+  
 
 function postData(e) {
   e.preventDefault();
@@ -183,7 +185,7 @@ function updateData(id) {
  
 }
 
-const update = document.getElementById('update');
+
 
 
 
