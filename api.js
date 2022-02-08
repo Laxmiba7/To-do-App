@@ -1,5 +1,5 @@
 
-const addBtn = document.querySelector('#success');
+const addBtn = document.querySelector('#add');
 const listTask = document.querySelector('#lecture-list ul');
 let array= [];
 
@@ -49,32 +49,7 @@ const displayData = () => {
       })
     })
 
-    // editBtns.forEach((editBtn,i) => {
-    //   // console.log(item);
-    //     editBtn.addEventListener('click', (e) => {
-    //         e.preventDefault();
-    //         const index = editBtn.getAttribute('data-index');
-    //         findId(index);
-            
-    //         // taskName.value = item.name;
-    //         // priorityValue.value = item.priority;
-    //         // description.value = item.description;
-            
-    //         // console.log(index);
-    //         // console.log(item.name);
-
-    //         // editTask(id);
-    //         // addBtn.addEventListener('click', editTask(index, item.name, item.priority, item.description));
-            
-    //     })
-        
-    // })
-
-    
-    
-    
-      
-         deleteBtn.forEach((delBtn, i) => {
+   deleteBtn.forEach((delBtn, i) => {
            delBtn.addEventListener('click', (e) => {
              e.preventDefault();
              console.log(delBtn);
@@ -134,9 +109,7 @@ function postData(e) {
     console.log(error);
   });
   
-  // taskName=' ';
-  // priorityValue= ' ';
-  // description = ' ';
+  
 }
 
 addBtn.addEventListener('click', postData);
@@ -179,16 +152,17 @@ listTask.addEventListener('click', (e) => {
   priorityValue.value = targetLi.children[0].children[0].children[0].innerText;
 
   const id= targetLi.getAttribute("data-index");
-  updateData(id)
+
+  update.addEventListener('click', (e) => {
+    e.preventDefault();
+    updateData(id);
+  } );
 
   
 })
 
 function updateData(id) {
- // e.preventDefault();
-  
-  
-   axios({
+ axios({
         method: 'put',
         url: `https://infodev-server.herokuapp.com/api/todos/${id}`,
         data: {
@@ -199,15 +173,19 @@ function updateData(id) {
         }
 }).then(function (response) {
     console.log(response);
-    displayData();
+    location.reload();
     
-  })
+})
   .catch(function (error) {
     console.log(error);
   });
   
  
 }
+
+const update = document.getElementById('update');
+
+
 
 
 
