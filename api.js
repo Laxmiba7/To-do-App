@@ -1,3 +1,4 @@
+// const { default: axios } = require("axios");
 
 const addBtn = document.querySelector('#success');
 const listTask = document.getElementById('lecture-list');
@@ -17,15 +18,15 @@ const displayData = () => {
               <p class="description">${item.description}</p>
           </div>
           <div>
-              <button class="btn btn-success"><i class="fas fa-check"></i></i></button>
-              <button class="btn btn-warning"><i class="fas fa-pencil"></i></i></button>
-              <button class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
+              <button class="btn btn-success"data-index= "${item._id}"><i class="fas fa-check"></i></i></button>
+              <button class="btn btn-warning" data-index= "${item._id}"><i class="fas fa-pencil"></i></i></button>
+              <button class="btn btn-danger" data-index= "${item._id}" ><i class="far fa-trash-alt"></i></button>
           </div>
         </li>
         </ul>`
       } else {
         const completeClass = 'strike';
-        listTask.innerHTML =  `<ul>
+        listTask.innerHTML +=  `<ul>
         <li>
           <div>
               <h6 class="title ${completeClass}"> ${item.name} <span class="ml-2 badge badge-info">${item.priority}</span></h6>
@@ -35,8 +36,34 @@ const displayData = () => {
         </ul>`
       }
       
+      const deleteBtn = document.querySelectorAll('.btn-danger');
+      // const editBtn = document.querySelectorAll('.btn-warning');
+
+
+
+      // editBtn.forEach((delBtn, i) => {
+      //   delBtn.addEventListener('click', () => {
+      //     console.log(delBtn);
+      //       const index = delBtn.getAttribute('data-index');
+      //       console.log(index);
+      //       deleteTask(index);
+      //   })
+      // })
+      
+         deleteBtn.forEach((delBtn, i) => {
+           delBtn.addEventListener('click', () => {
+             console.log(delBtn);
+               const index = delBtn.getAttribute('data-index');
+               console.log(index);
+               deleteTask(index);
+           })
+         })
+      
     });
     });
+
+
+    // handleDel();
     
 }
 
@@ -59,16 +86,54 @@ function postData(e) {
         }
 }).then(function (response) {
     console.log(response);
+    displayData();
+    alert("Added Successfully");
   })
   .catch(function (error) {
     console.log(error);
   });
-  displayData();
-window.location.reload();
+  
+  // location.reload();
 }
 
 addBtn.addEventListener('click', postData);
 displayData();
+
+
+
+function deleteTask(id) {
+  axios ({
+    method:"delete",
+    url: `https://infodev-server.herokuapp.com/api/todos/${id}`,
+  }).then ((res) =>{
+    console.log("Deleted");
+    alert("Deleted Successfully");
+  }).catch((err) => {
+    console.log("Error")
+  });
+
+  displayData();
+
+}
+
+//   })  
+// }
+   
+  
+//     axios.get('https://infodev-server.herokuapp.com/api/todos').then(function(response){
+
+//         response.data.forEach(item => {
+         
+
+          
+//         })
+          
+        
+//     })
+    
+// }
+
+
   
     
   
