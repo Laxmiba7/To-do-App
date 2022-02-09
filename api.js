@@ -53,6 +53,28 @@ const displayData = () => {
           
       })
     })
+    
+    editBtns.forEach((editBtn,i) => {
+       
+        editBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+          const index = editBtn.getAttribute('data-index');
+          
+          const found = response.data.find(el => index === el._id);
+          console.log(found.name);
+          taskName.value = found.name;
+          priorityValue.value = found.priority;
+          description.value = found.description;
+          update.addEventListener('click', (e) => {
+                e.preventDefault();
+                console.log(index);
+                updateData(index);
+              } ); 
+          
+            
+         })
+        
+    })
 
    deleteBtn.forEach((delBtn, i) => {
            delBtn.addEventListener('click', (e) => {
@@ -69,6 +91,7 @@ const displayData = () => {
 }
 
 const updateComplete = (id) => {
+ 
   axios({
     method: 'put',
     url: `https://infodev-server.herokuapp.com/api/todos/${id}`,
@@ -125,12 +148,13 @@ const  deleteTask = (id) => {
     url: `https://infodev-server.herokuapp.com/api/todos/${id}`,
   }).then ((res) =>{
     console.log("Deleted");
+    location.reload();
     alert("Deleted Successfully");
   }).catch((err) => {
     console.log("Error")
   });
 
-  displayData();
+  // displayData();
 
 }
 
@@ -142,26 +166,26 @@ const editTask = () => {
 
 }
 
-listTask.addEventListener('click', (e) => {
+// listTask.addEventListener('click', (e) => {
   
-  e.preventDefault();
-  if(e.target.className === "btn btn-warning") {
-  var targetLi = e.target.parentElement.parentElement;
+//   e.preventDefault();
+//   if(e.target.className === "btn btn-warning") {
+//   var targetLi = e.target.parentElement.parentElement;
     
-  }
-  taskName.value =  targetLi.children[0].children[0].childNodes[0].data;
-  description.value = targetLi.children[0].children[1].innerText;
-  priorityValue.value = targetLi.children[0].children[0].children[0].innerText;
+//   }
+//   taskName.value =  targetLi.children[0].children[0].childNodes[0].data;
+//   description.value = targetLi.children[0].children[1].innerText;
+//   priorityValue.value = targetLi.children[0].children[0].children[0].innerText;
 
-  const id= targetLi.getAttribute("data-index");
+//   const id= targetLi.getAttribute("data-index");
 
-  update.addEventListener('click', (e) => {
-    e.preventDefault();
-    updateData(id);
-  } );
+//   update.addEventListener('click', (e) => {
+//     e.preventDefault();
+//     updateData(id);
+//   } );
 
   
-})
+// })
 
 function updateData(id) {
  axios({
