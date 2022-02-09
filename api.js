@@ -38,6 +38,9 @@ const displayData = () => {
               <h6 class="title ${completeClass}"> ${item.name} <span class="ml-2 badge badge-info">${item.priority}</span></h6>
               <p class="description">${item.description}</p>
           </div>
+          <div>
+              <button class="btn btn-danger" data-index= "${item._id}" ><i class="far fa-trash-alt"></i></button>
+          </div>
         </li>`
       }
       
